@@ -32,6 +32,11 @@ public class SolutionWorker implements Runnable {
     @Override
     public void run() {
         combosToTry = new ArrayList(ZooHeapApp.combos);
+        combosToTry = ZooHeapApp.combos
+                        .stream()
+                        .filter(x -> !playArea.getUsedShapes().contains(x.shape))
+                        .collect(Collectors.toList());
+        
         while (!tryAddingShapes() && !ZooHeapApp.isSolutionFound()) {
             if (!previousStates.isEmpty()) {
                 restorePreviousState();

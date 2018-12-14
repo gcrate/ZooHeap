@@ -26,7 +26,7 @@ public class ZooHeapApp {
 
     private final static List<Shape> shapes = new ArrayList<>();
     public static final Set<ShapeRotationCombo> combos = new HashSet<>();
-    private static boolean[][] playAreaShape;
+    private static char[][] playAreaShape;
 
     private static boolean solutionFound = false;
     private static int shapesUsed = 0;
@@ -100,7 +100,7 @@ public class ZooHeapApp {
             area.add(areaRow);
         }
 
-        playAreaShape = new boolean[area.size()][area.get(0).length];
+        playAreaShape = new char[area.size()][area.get(0).length];
         ArrayShapeUtils.print(playAreaShape);
     }
 
@@ -110,7 +110,7 @@ public class ZooHeapApp {
 
         int shapeRowLength = 0;
         //setup first shape array
-        int idCnt = 0;
+        int idCnt = 1;
         for (String dataLine : shapesData) {
             if (dataLine.equals("")) {
                 boolean[][] shapeArray = new boolean[currentShape.size()][shapeRowLength];

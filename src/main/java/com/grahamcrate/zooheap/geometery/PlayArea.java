@@ -11,21 +11,21 @@ import java.util.Set;
  */
 public class PlayArea {
     private final Set<Shape> usedShapes;
-    private boolean[][] area;
+    private char[][] area;
     
-    private boolean[][] updatedArea;
+    private char[][] updatedArea;
     private Shape updateShape;
     
     private Coordinates firstEmptySpace;
     
 
     public PlayArea(int xLen, int yLen) {
-        area = new boolean[xLen][yLen];
+        area = new char[xLen][yLen];
         usedShapes = new HashSet<>();
         calcFirstEmptySpace();
     }
     
-    public PlayArea(boolean[][] area) {
+    public PlayArea(char[][] area) {
         this.area = area;
         usedShapes = new HashSet<>();
         calcFirstEmptySpace();
@@ -72,10 +72,10 @@ public class PlayArea {
                 if (shapeArea[row][col]) {
                     // find where it goes
                     try {
-                        if(updatedArea[row + rowZero][col + colZero]) {
+                        if(updatedArea[row + rowZero][col + colZero] != '\u0000') {
                             throw new DoesntFitException();
                         }
-                        updatedArea[row + rowZero][col + colZero] = true;
+                        updatedArea[row + rowZero][col + colZero] = shape.shapeId;
                     } catch (IndexOutOfBoundsException ex) {
                         throw new DoesntFitException();
                     }
@@ -88,7 +88,7 @@ public class PlayArea {
         
     }
 
-    public boolean[][] getArea() {
+    public char[][] getArea() {
         return area;
     }
     
@@ -99,9 +99,9 @@ public class PlayArea {
     
     private void calcFirstEmptySpace() {
         for (int y = 0; y < area.length; y++) {
-            boolean[] row = area[y];
+            char[] row = area[y];
             for (int x = 0; x < row.length; x++) {
-                if(!row[x]) {
+                if(row[x] == '\u0000') {
                     firstEmptySpace = new Coordinates(y, x);
                     return;
                 }

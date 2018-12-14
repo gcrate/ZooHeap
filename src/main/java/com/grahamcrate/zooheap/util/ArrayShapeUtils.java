@@ -8,6 +8,18 @@ import org.apache.commons.lang.ArrayUtils;
  */
 public class ArrayShapeUtils {
 
+    public static char[][] makeCopy(char[][] array) {
+        char[][] b = new char[array.length][];
+
+        for (int row = 0; row < array.length; ++row) {
+            b[row] = new char[array[row].length];
+            for (int col = 0; col < b[row].length; ++col) {
+                b[row][col] = array[row][col];
+            }
+        }
+        return b;
+    }
+    
     public static boolean[][] makeCopy(boolean[][] array) {
         boolean[][] b = new boolean[array.length][];
 
@@ -43,12 +55,12 @@ public class ArrayShapeUtils {
         return newArray;
     }
 
-    public static void print(boolean arr[][]) {
+    public static void print(char arr[][]) {
         // Loop through all rows 
         for (int i = 0; i < arr.length; i++) // Loop through all elements of current row 
         {
             for (int j = 0; j < arr[i].length; j++) {
-                System.out.print((arr[i][j] ? "X" : "-") + " ");
+                System.out.print((arr[i][j] != '\u0000' ? arr[i][j] : "-") + " ");
             }
             System.out.println();
         }
