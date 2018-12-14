@@ -9,13 +9,13 @@ import org.apache.commons.lang.ArrayUtils;
  */
 public class Shape {
 
-    public final int shapeId;
+    public final char shapeId;
     private final boolean[][] shape;
     private final boolean[][] shape90;
     private final boolean[][] shape180;
     private final boolean[][] shape270;
 
-    public Shape(int shapeId, boolean[][] shape) {
+    public Shape(char shapeId, boolean[][] shape) {
         this.shapeId = shapeId;
         this.shape = shape;
 

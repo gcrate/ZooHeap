@@ -49,7 +49,7 @@ public class SolutionWorker implements Runnable {
                 saveState();
                 playArea.commit();
                 if (playArea.isFull()) {
-                    ZooHeapApp.solutionFound();
+                    ZooHeapApp.solutionFound(playArea.getUsedShapes().size());
                     return true;
                 }
 

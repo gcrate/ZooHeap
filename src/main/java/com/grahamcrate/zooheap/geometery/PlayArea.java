@@ -84,7 +84,7 @@ public class PlayArea {
             first = false;
         }
         
-        //ArrayShapeUtils.print(updatedArea);
+        ArrayShapeUtils.print(updatedArea);
         
     }
 
