@@ -56,14 +56,20 @@ public class ArrayShapeUtils {
     }
 
     public static void print(char arr[][]) {
+        System.out.println(arrayToString(arr));
+    }
+    
+    public static String arrayToString(char arr[][]) {
+        StringBuilder sb = new StringBuilder();
         // Loop through all rows 
         for (int i = 0; i < arr.length; i++) // Loop through all elements of current row 
         {
             for (int j = 0; j < arr[i].length; j++) {
-                System.out.print((arr[i][j] != '\u0000' ? arr[i][j] : "-") + " ");
+                sb.append((arr[i][j] != '\u0000' ? arr[i][j] : "-") + " ");
             }
-            System.out.println();
+            sb.append("\n");
         }
-        System.out.println();
+        return sb.toString();
+        
     }
 }

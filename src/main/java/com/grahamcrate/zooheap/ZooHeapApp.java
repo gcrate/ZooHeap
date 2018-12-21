@@ -30,7 +30,11 @@ public class ZooHeapApp {
 
     private static boolean solutionFound = false;
     private static int shapesUsed = 0;
-
+    
+    private static String solution;
+    
+    private static boolean showSolution = false;
+    
     /**
      * @param args the command line arguments
      */
@@ -43,6 +47,12 @@ public class ZooHeapApp {
 
         File shapeFile = new File(args[0]);
         File areaFile = new File(args[1]);
+        
+        if (args.length == 3) {
+            if (args[2].equalsIgnoreCase("showsolution")) {
+                showSolution = true;
+            }
+        }
 
         loadShapesFromFile(shapeFile);
         loadAreaFromFile(areaFile);
@@ -54,7 +64,7 @@ public class ZooHeapApp {
             combos.add(new ShapeRotationCombo(shape, Rotation.ROTATED_270));
         }
 
-        ExecutorService executorSvc = Executors.newFixedThreadPool(1);//shapes.size() < 4 ? shapes.size() : 4);
+        ExecutorService executorSvc = Executors.newFixedThreadPool(shapes.size() < 5 ? shapes.size() : 5);
         for (ShapeRotationCombo combo : combos) {
             PlayArea pa = new PlayArea(playAreaShape);
             if (pa.addShapeTransactional(combo)) {
@@ -71,12 +81,16 @@ public class ZooHeapApp {
         System.out.println("Success:" + isSolutionFound());
         if (isSolutionFound()) {
             System.out.println(shapesUsed + " shapes used");
+            if(showSolution) {
+                System.out.println(solution);
+            }
         }
     }
 
-    public static void solutionFound(int numOfShapes) {
+    public static void solutionFound(int numOfShapes, String sol) {
         solutionFound = true;
         shapesUsed = numOfShapes;
+        solution = sol;
     }
 
     public static boolean isSolutionFound() {
@@ -89,18 +103,21 @@ public class ZooHeapApp {
 
     private static void loadAreaFromFile(File areaFile) throws IOException {
         List<String> areaData = FileUtils.readLines(areaFile, Charset.defaultCharset());
-        List<boolean[]> area = new ArrayList<>();
+        List<char[]> area = new ArrayList<>();
 
         for (String areaDataRow : areaData) {
             // TODO: validate all rows are the same size
-            boolean[] areaRow = new boolean[areaDataRow.length()];
+            char[] areaRow = new char[areaDataRow.length()];
             for (int i = 0; i < areaDataRow.length(); i++) {
-                areaRow[i] = areaDataRow.charAt(i) == 'X';
+                areaRow[i] = areaDataRow.charAt(i) == 'X' ? 'X' : '\u0000';
             }
             area.add(areaRow);
         }
 
         playAreaShape = new char[area.size()][area.get(0).length];
+        
+        area.toArray(playAreaShape);
+        
         ArrayShapeUtils.print(playAreaShape);
     }
 

@@ -3,6 +3,7 @@ package com.grahamcrate.zooheap.compute;
 import com.grahamcrate.zooheap.ZooHeapApp;
 import com.grahamcrate.zooheap.geometery.PlayArea;
 import com.grahamcrate.zooheap.geometery.ShapeRotationCombo;
+import com.grahamcrate.zooheap.util.ArrayShapeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -54,7 +55,9 @@ public class SolutionWorker implements Runnable {
                 saveState();
                 playArea.commit();
                 if (playArea.isFull()) {
-                    ZooHeapApp.solutionFound(playArea.getUsedShapes().size());
+                    ZooHeapApp.solutionFound(
+                            playArea.getUsedShapes().size(),
+                            ArrayShapeUtils.arrayToString(playArea.getArea()));
                     return true;
                 }
 

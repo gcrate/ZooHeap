@@ -57,34 +57,38 @@ public class PlayArea {
         
         boolean[][] shapeArea = shape.getArea(rotation);
         
-        //find first point on first row
-        boolean[] shapeFirstRow = shapeArea[0];
-        int offsetCol = 0;
-        while (!shapeFirstRow[offsetCol]) {
-            offsetCol++;
-        }
-        
-        boolean first = true;
-        int colZero = addAt.col - offsetCol;
-        int rowZero = addAt.row;
-        for (int row = 0; row < shapeArea.length; row++) {
-            for (int col = first ? offsetCol : 0; col < shapeFirstRow.length; col++) {
-                if (shapeArea[row][col]) {
-                    // find where it goes
-                    try {
-                        if(updatedArea[row + rowZero][col + colZero] != '\u0000') {
+        try {
+            //find first point on first row
+            boolean[] shapeFirstRow = shapeArea[0];
+            int offsetCol = 0;
+            while (!shapeFirstRow[offsetCol]) {
+                offsetCol++;
+            }
+
+            boolean first = true;
+            int colZero = addAt.col - offsetCol;
+            int rowZero = addAt.row;
+            for (int row = 0; row < shapeArea.length; row++) {
+                for (int col = first ? offsetCol : 0; col < shapeFirstRow.length; col++) {
+                    if (shapeArea[row][col]) {
+                        // find where it goes
+                        try {
+                            if(updatedArea[row + rowZero][col + colZero] != '\u0000') {
+                                throw new DoesntFitException();
+                            }
+                            updatedArea[row + rowZero][col + colZero] = shape.shapeId;
+                        } catch (IndexOutOfBoundsException ex) {
                             throw new DoesntFitException();
                         }
-                        updatedArea[row + rowZero][col + colZero] = shape.shapeId;
-                    } catch (IndexOutOfBoundsException ex) {
-                        throw new DoesntFitException();
                     }
                 }
+                first = false;
             }
-            first = false;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new DoesntFitException();
         }
         
-        ArrayShapeUtils.print(updatedArea);
+        //ArrayShapeUtils.print(updatedArea);
         
     }
 
